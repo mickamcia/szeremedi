@@ -1,11 +1,59 @@
 #include "engine.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 state _state;
 settings _settings;
 
+int check_if_black_won(){
+    for (int i = 0; i < _settings.m; ++i) {
+        if (!get_bit(_state.black, i)) continue;
+        for (int j = i + 1; j < _settings.m; ++j) {
+            if (!get_bit(_state.black, j)) continue;
+            int diff = j - i;
+            int k = j + diff;
+            int count = 2;
+            while (get_bit(_state.black, k)) {
+                count++;
+                k = k + diff;
+                if (count >= _settings.k) {
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
+}
+int check_if_white_won(){
+    for (int i = 0; i < _settings.m; ++i) {
+        if (!get_bit(_state.white, i)) continue;
+        for (int j = i + 1; j < _settings.m; ++j) {
+            if (!get_bit(_state.white, j)) continue;
+            int diff = j - i;
+            int k = j + diff;
+            int count = 2;
+            while (get_bit(_state.white, k)) {
+                count++;
+                k = k + diff;
+                if (count >= _settings.k) {
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
+}
+int check_if_move_exists(){
+    for(int i = 0; i < MEM_SIZE; i++){
+        if(_state.set[i] != 0) return 1;
+    }
+    return 0;
+}
+
+
 int init(){
+    srand((int)time(NULL));
     return 0;
 }
 
@@ -14,14 +62,22 @@ int finish(){
 }
 
 int setup(int k, int x, int m){
+    if(k < 3 || x < 6 || m < 6 || x > m || m >= MAX_NUMBER) return -1;
     _settings.k = k;
     _settings.x = x;
     _settings.m = m;
     for(int i = 0; i < MEM_SIZE; i++){
-        _state.set[i] = ((U64)rand() << 32ULL) | (U64)rand();
-        _state.set[i] &= ((U64)rand() << 32ULL) | (U64)rand();
+        _state.set[i] = 0;
         _state.white[i] = 0ULL;
         _state.black[i] = 0ULL;
+    }
+    int count = 0;
+    while(count < x){
+        int num = rand() % m;
+        if(!get_bit(_state.set, num)){
+            set_bit(_state.set, num);
+            count++;
+        }
     }
     return 0;
 }
@@ -52,7 +108,16 @@ int move(int mv){
 }
 
 int check_who_won(){
-    return 0;
+    if(!check_if_move_exists()){
+        return DRAW;
+    }
+    if(check_if_white_won()){
+        return WHITE;
+    }
+    if(check_if_black_won()){
+        return BLACK;
+    }
+    return PLAY;
 }
 
 int think(){
@@ -61,7 +126,7 @@ int think(){
             return i;
         }
     }
-    return 0;
+    return -1;
 }
 
 void print_state(){

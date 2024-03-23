@@ -6,14 +6,13 @@
 
 int main(){
     api_init();
-    api_setup(10, 4, 20);
-    int who_finished = 0;
-    int move_count = 0;
-    while(who_finished == 0){
+    api_setup(4, 10, 20);
+    int curr = PLAY;
+    while(curr == PLAY){
         int move = api_think();
         api_move(move);
         utils_print_state();
-        if(move_count++ > 25) break;
+        curr = api_check_who_won();
     }
         
     api_clean();

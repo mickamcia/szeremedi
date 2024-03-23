@@ -14,8 +14,10 @@ typedef unsigned long long U64;
 #define get_bit(array, index) (__get_bit((array)[(index) / (sizeof(U64) * 8)], (index) & (63ULL)))
 #define pop_bit(array, index) (__pop_bit((array)[(index) / (sizeof(U64) * 8)], (index) & (63ULL)))
 
-#define WHITE 1
 #define BLACK 0
+#define WHITE 1
+#define DRAW  2
+#define PLAY  3
 
 typedef struct
 {
