@@ -108,7 +108,7 @@ int finish(){
 }
 
 int setup(int k, int x, int m){
-    if(k < 3 || x < 6 || m < 6 || x > m || m >= MAX_NUMBER || m >= 64) return -1;
+    if(k < 3 || x < 6 || m < 6 || x > m || m >= MAX_NUMBER || m > 64) return -1;
     _settings.k = k;
     _settings.x = x;
     _settings.m = m;
