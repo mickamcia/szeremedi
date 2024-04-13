@@ -6,7 +6,7 @@
 
 int main(){
     api_init();
-    api_setup(4, 10, 20);
+    api_setup(4, 10, 10);
     int curr = PLAY;
     while(curr == PLAY){
         int move = api_think();

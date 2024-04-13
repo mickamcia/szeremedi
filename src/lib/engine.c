@@ -108,14 +108,14 @@ int move(int mv){
 }
 
 int check_who_won(){
-    if(!check_if_move_exists()){
-        return DRAW;
-    }
     if(check_if_white_won()){
         return WHITE;
     }
     if(check_if_black_won()){
         return BLACK;
+    }
+    if(!check_if_move_exists()){
+        return DRAW;
     }
     return PLAY;
 }
