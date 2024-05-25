@@ -9,8 +9,8 @@ int api_finish();
 int api_setup(int, int, int);
 int api_clean();
 
-void api_set_state(state);
-state api_get_state();
+void api_set_state(State);
+State api_get_state();
 
 int api_move(int);
 int api_check_who_won();

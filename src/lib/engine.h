@@ -1,43 +1,60 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#define MEM_SIZE 4
+typedef unsigned long long int U64;
+typedef signed long long int S64;
 
-typedef unsigned long long U64;
-#define MAX_NUMBER (int)(MEM_SIZE * sizeof(U64) * 8)
+constexpr int MAX_NUMBER = 64;
+constexpr int WIN_AWARD = 1e7;
+constexpr int INT_MAX = +WIN_AWARD;
+constexpr int INT_MIN = -WIN_AWARD;
 
-#define __set_bit(word, index) ((word) |= (1ULL << (U64)(index)))
-#define __get_bit(word, index) ((word) & (1ULL << (U64)(index)))
-#define __pop_bit(word, index) ((word) &= ~(1ULL << (U64)(index)))
-
-#define set_bit(array, index) (__set_bit((array)[(index) / (sizeof(U64) * 8)], (index) & (63ULL)))
-#define get_bit(array, index) (__get_bit((array)[(index) / (sizeof(U64) * 8)], (index) & (63ULL)))
-#define pop_bit(array, index) (__pop_bit((array)[(index) / (sizeof(U64) * 8)], (index) & (63ULL)))
-
-#define BLACK 0
-#define WHITE 1
-#define DRAW  2
-#define PLAY  3
-
-#define INT_MIN (-1e9)
-#define INT_MAX (+1e9)
-#define MAX_DEPTH 5
-typedef struct
+constexpr inline auto __set_bit(const U64 word, const U64 index) noexcept -> U64
 {
-    U64 set[MEM_SIZE];
-    U64 white[MEM_SIZE];
-    U64 black[MEM_SIZE];
-    int to_move;
-} state;
+  return word | (1ULL << index);
+}
 
-typedef struct
+constexpr inline auto __get_bit(const U64 word, const U64 index) noexcept -> U64
 {
-    int k;
-    int x;
-    int m;
-} settings;
+  return word & (1ULL << index);
+}
 
+constexpr inline auto __pop_bit(const U64 word, const U64 index) noexcept -> U64
+{
+  return word & (~(1ULL << index));
+}
 
+enum class Result
+{
+  BLACK,
+  WHITE,
+  DRAW,
+  PLAY,
+};
+
+enum class ToMove
+{
+  BLACK,
+  WHITE,
+};
+
+struct State_t
+{
+  U64 set;
+  U64 white;
+  U64 black;
+  ToMove to_move;
+};
+
+struct Settings_t
+{
+  U64 k;
+  U64 x;
+  U64 m;
+};
+
+typedef struct State_t State;
+typedef struct Settings_t Settings;
 
 int init();
 int finish();
@@ -45,8 +62,8 @@ int finish();
 int setup(int, int, int);
 int clean();
 
-void set_state(state);
-state get_state();
+void set_state(State);
+State get_state();
 
 int move(int);
 int check_who_won();
