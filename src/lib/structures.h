@@ -1,39 +1,42 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 
-typedef unsigned long long int U64;
-typedef signed long long int S64;
-
-enum class Result
+extern "C"
 {
-  BLACK,
-  WHITE,
-  DRAW,
-  PLAY,
-};
+  typedef unsigned long long int U64;
+  typedef signed long long int S64;
 
-enum class ToMove
-{
-  BLACK,
-  WHITE,
-};
+  enum class Result
+  {
+    BLACK,
+    WHITE,
+    DRAW,
+    PLAY,
+  };
 
-struct State_t
-{
-  U64 set;
-  U64 white;
-  U64 black;
-  ToMove to_move;
-};
+  enum class ToMove
+  {
+    BLACK,
+    WHITE,
+  };
 
-struct Settings_t
-{
-  U64 k;
-  U64 x;
-  U64 m;
-};
+  struct State_t
+  {
+    U64 set;
+    U64 white;
+    U64 black;
+    ToMove to_move;
+  };
 
-typedef struct State_t State;
-typedef struct Settings_t Settings;
+  struct Settings_t
+  {
+    U64 k;
+    U64 x;
+    U64 m;
+  };
+
+  typedef struct State_t State;
+  typedef struct Settings_t Settings;
+}
 
 #endif

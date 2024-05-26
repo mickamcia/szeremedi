@@ -3,19 +3,22 @@
 
 #include "structures.h"
 
-int api_init();
-int api_finish();
+extern "C"
+{
+  int api_init();
+  int api_finish();
 
-int api_setup(int, int, int);
-int api_clean();
+  int api_setup(int, int, int);
+  int api_clean();
 
-void api_set_state(State);
-State api_get_state();
+  void api_set_state(State);
+  State api_get_state();
 
-int api_move(int);
-int api_check_who_won();
+  int api_move(int);
+  int api_check_who_won();
 
-int api_think();
+  int api_think();
+}
 
 
 #endif
