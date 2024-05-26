@@ -1,7 +1,7 @@
 #ifndef API_H
 #define API_H
 
-#include "engine.h"
+#include "structures.h"
 
 int api_init();
 int api_finish();
