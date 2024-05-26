@@ -1,24 +1,28 @@
 #ifndef API_H
 #define API_H
 
-#include "structures.h"
-
-extern "C"
+struct ApiState_t
 {
-  int api_init();
-  int api_finish();
+  unsigned long long set;
+  unsigned long long white;
+  unsigned long long black;
+  int to_move;
+};
 
-  int api_setup(int, int, int);
-  int api_clean();
+typedef struct ApiState_t ApiState;
 
-  void api_set_state(State);
-  State api_get_state();
+int api_init();
+int api_finish();
 
-  int api_move(int);
-  int api_check_who_won();
+int api_setup(int, int, int);
+int api_clean();
 
-  int api_think();
-}
+void api_set_state(ApiState);
+ApiState api_get_state();
 
+int api_move(int);
+int api_check_who_won();
+
+int api_think();
 
 #endif
